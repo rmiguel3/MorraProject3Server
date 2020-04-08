@@ -16,7 +16,6 @@ public class TheGameOfMorra extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		primaryStage.setTitle("(Server) Let's Play Morra!!!");
-		
 		Scene scene = new Scene(new HBox(),600,600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
