@@ -21,7 +21,6 @@ public class TheGameOfMorra extends Application {
 	Scene startScene;
 	BorderPane startPane;
 	MorraServer serverConnection;
-
 	ListView<String> listItems;
 
 	public static void main(String[] args) {
