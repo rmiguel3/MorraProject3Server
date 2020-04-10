@@ -10,7 +10,7 @@ import javafx.application.Platform;
 import javafx.scene.control.ListView;
 
 public class MorraServer {
-    int count = 1;
+    int count = 0;
     ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
     TheServer server;
     private Consumer<Serializable> callback;
@@ -33,14 +33,17 @@ public class MorraServer {
 
 
                 while(true) {
-
+                    count++;
                     ClientThread c = new ClientThread(mysocket.accept(), count);
                     callback.accept("client has connected to server: " + "client #" + count);
                     clients.add(c);
                     c.start();
-
-                    count++;
-
+                    if(count == 1){
+                        callback.accept("It is just you my friend...");
+                    }
+                    if(count == 2){
+                        callback.accept("There are 2 people connected to the server. Time to play Morra!");
+                    }
                 }
             }//end of try
             catch(Exception e) {
