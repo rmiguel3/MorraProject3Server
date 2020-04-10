@@ -41,7 +41,7 @@ public class MorraServer {
                     if(count == 1){
                         callback.accept("It is just you my friend...");
                     }
-                    if(count == 2){
+                    else if(count == 2){
                         callback.accept("There are 2 people connected to the server. Time to play Morra!");
                     }
                 }
