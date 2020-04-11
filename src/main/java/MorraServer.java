@@ -17,7 +17,6 @@ public class MorraServer {
 
 
     MorraServer(Consumer<Serializable> call){
-
         callback = call;
         server = new TheServer();
         server.start();

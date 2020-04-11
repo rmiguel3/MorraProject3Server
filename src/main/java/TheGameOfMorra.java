@@ -87,7 +87,6 @@ public class TheGameOfMorra extends Application {
 
 		return new Scene(pane, 500, 400);
 
-
 	}
 
 
