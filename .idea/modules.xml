@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BaccaratProject.iml" filepath="$PROJECT_DIR$/BaccaratProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/MorraProject3Server.iml" filepath="$PROJECT_DIR$/MorraProject3Server.iml" />
     </modules>
   </component>
