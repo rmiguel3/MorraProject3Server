@@ -57,7 +57,7 @@ public class TheGameOfMorra extends Application {
 		buttonBox = new HBox(serverStart);
 
 
-		//server
+		//server functionality and background music
 		serverStart.setOnAction(e->{ primaryStage.setScene(sceneMap.get("Main Server View"));
 			primaryStage.setTitle("This is the Server");
 
