@@ -71,7 +71,7 @@ public class TheGameOfMorra extends Application {
 					int lastMessage = listItems.getItems().size();
 					listItems.scrollTo(lastMessage);
 				});
-			});
+			}, Integer.parseInt(portTextField.getText()));
 		});
 
 		HBox portBox = new HBox(portTextField);

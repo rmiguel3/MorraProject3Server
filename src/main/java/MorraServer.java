@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import javafx.application.Platform;
 import javafx.scene.control.ListView;
 
-public class MorraServer{
+public class MorraServer {
     int count = 1;
     ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
     TheServer server;
@@ -17,13 +17,15 @@ public class MorraServer{
     MorraInfo serverInfo = new MorraInfo();
     MorraInfo p1Info = new MorraInfo();
     MorraInfo p2Info = new MorraInfo();
+    int portNum;
     private Consumer<Serializable> callback;
 
 
-    MorraServer(Consumer<Serializable> call){
+    MorraServer(Consumer<Serializable> call, int port){
         callback = call;
         server = new TheServer();
         server.start();
+        portNum = port;
     }
 
 
@@ -31,7 +33,7 @@ public class MorraServer{
 
         public void run() {
 
-            try(ServerSocket mysocket = new ServerSocket(5555);){
+            try(ServerSocket mysocket = new ServerSocket(portNum);) {
                 System.out.println("Server is waiting for a client!");
                 while(true) {
                     ClientThread c = new ClientThread(mysocket.accept(), count);
