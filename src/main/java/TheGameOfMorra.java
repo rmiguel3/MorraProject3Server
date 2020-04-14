@@ -56,7 +56,7 @@ public class TheGameOfMorra extends Application {
 
 			backgroundSong.setVolume(0.25);
 			backgroundSong.setCycleCount(MediaPlayer.INDEFINITE);
-			backgroundSong.play();
+			//backgroundSong.play();
 
 			serverConnection = new MorraServer(data -> {
 				Platform.runLater(()->{
