@@ -3,14 +3,13 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -23,11 +22,19 @@ public class TheGameOfMorra extends Application {
 	//declares all variables needed
 	HashMap<String, Scene> sceneMap = new HashMap<>();
 	Scene startScene;
+
 	BorderPane startPane;
-	HBox buttonBox;
+
 	Media backgroundMusic = new Media(getClass().getClassLoader().getResource("Lukes_sick_club_beat.mp3").toString());
 	MediaPlayer backgroundSong = new MediaPlayer(backgroundMusic);
+
+	HBox buttonBox;
 	Button serverStart = new Button("Click to start the game");
+
+	TextField portTextField = new TextField();
+
+	Text textForPort = new Text("Enter port:");
+
 	MorraServer serverConnection;
 	ListView<String> listItems;
 
@@ -50,7 +57,7 @@ public class TheGameOfMorra extends Application {
 		buttonBox = new HBox(serverStart);
 
 
-		//server
+		//server functionality and background music
 		serverStart.setOnAction(e->{ primaryStage.setScene(sceneMap.get("Main Server View"));
 			primaryStage.setTitle("This is the Server");
 
@@ -65,11 +72,30 @@ public class TheGameOfMorra extends Application {
 			});
 		});
 
+		HBox portBox = new HBox(portTextField);
+		portBox.resize(100,50);
+
+		// prevent user from being able to enter more than 4 characters for port
+		portTextField.setTextFormatter(new TextFormatter<String>(change ->
+				change.getControlNewText().length() <= 4 ? change : null));
+
+		// format "Enter port:"
+		textForPort.setFont(Font.font ("Verdana", 20));
+		textForPort.setStyle("-fx-font-weight: bold");
+		textForPort.setFill(Color.INDIGO);
+
 		//adds the items into the startPane
 		startPane.getChildren().add(morraImageView);
 		startPane.getChildren().add(buttonBox);
+		startPane.getChildren().add(textForPort);
+		startPane.getChildren().add(portBox);
+
+		textForPort.relocate(200,120);
+		portBox.relocate(200, 150);
+
 		buttonBox.resize(300,300);
-		buttonBox.relocate(180,250);
+		buttonBox.relocate(170,300);
+
 		startScene = new Scene(startPane, 500,500);
 
 		// main view for server
