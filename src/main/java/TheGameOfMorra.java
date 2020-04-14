@@ -68,6 +68,8 @@ public class TheGameOfMorra extends Application {
 			serverConnection = new MorraServer(data -> {
 				Platform.runLater(()->{
 					listItems.getItems().add(data.toString());
+					int lastMessage = listItems.getItems().size();
+					listItems.scrollTo(lastMessage);
 				});
 			});
 		});
@@ -90,7 +92,7 @@ public class TheGameOfMorra extends Application {
 		startPane.getChildren().add(textForPort);
 		startPane.getChildren().add(portBox);
 
-		textForPort.relocate(200,120);
+		textForPort.relocate(191,120);
 		portBox.relocate(200, 150);
 
 		buttonBox.resize(300,300);
