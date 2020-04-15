@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.Serializable;
 
 public class MorraInfo implements Serializable{
@@ -9,6 +10,43 @@ public class MorraInfo implements Serializable{
     private int pNum; //tells which player they are
     private String playerString;
     private boolean twoPlayers;
+    private boolean guessing;
+
+    //Evaluate who won the round between 2 players
+    public int morraGameLogic(int p1, int p2){
+        int total = Integer.parseInt(morraInfo.getP1Plays()) + Integer.parseInt(morraInfo.getP2Plays());
+        if(p1 == total && p2 != total){
+            return 1;
+        }
+        else if(p2 == total && p1 != total){
+            return 2;
+        }
+        return 0;
+    }
+
+    public void determineWinner() throws IOException {
+        int win = morraGameLogic(Integer.parseInt(morraInfo.getP1Plays()), Integer.parseInt(morraInfo.getP2Plays()));
+        if(win == 1){
+            morraInfo.setP1Points(morraInfo.getP1Points() + 1);
+            morraInfo.setPlayerString("client #1 has won this round!");
+        }
+        else if(win == 2){
+            morraInfo.setP2Points(morraInfo.getP2Points() + 1);
+            morraInfo.setPlayerString("client #2 has won this round!");
+        }
+        else{
+            morraInfo.setPlayerString("No one won game is tied!");
+        }
+        updateClients();
+    }
+
+    public boolean isGuessing() {
+        return guessing;
+    }
+
+    public void setGuessing(boolean guessing) {
+        this.guessing = guessing;
+    }
 
     public boolean isTwoPlayers() {
         return twoPlayers;

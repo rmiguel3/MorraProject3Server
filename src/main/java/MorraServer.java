@@ -41,12 +41,12 @@ public class MorraServer {
                     c.start();
                     if(count == 1){
                         callback.accept("It is just you my friend...");
-                        serverInfo.setPlayerString("It is just you my friend...");
+                        morraInfo.setPlayerString("It is just you my friend...");
                     }
                     //2 clients have joined the game
                     else if(count > 1){
                         callback.accept("There are 2 people connected to the server. Time to play Morra!");
-                        serverInfo.setPlayerString("There are 2 people connected to the server. Time to play Morra!");
+                        morraInfo.setPlayerString("There are 2 people connected to the server. Time to play Morra!");
                         morraInfo.setTwoPlayers(true);
                     }
                     count++;
@@ -72,13 +72,12 @@ public class MorraServer {
         }
 
         //sends and updates the clients
-        public void updateClients() {
+        public void updateClients(){
             for(int i = 0; i < clients.size(); i++) {
                 ClientThread t = clients.get(i);
                 try {
-                    //serverInfo = (MorraInfo) t.in.readObject();
-                    serverInfo.setpNum(i + 1);
-                    t.out.writeObject(serverInfo);
+                    morraInfo.setpNum(i + 1);
+                    t.out.writeObject(morraInfo);
                     t.out.reset();
                     t.out.flush();
                 }
@@ -97,9 +96,12 @@ public class MorraServer {
                         callback.accept("client: " + morraInfo.getpNum() + " chooses: " + morraInfo.getP1Plays());
                     } else if (morraInfo.getpNum() == 2) {
                         callback.accept("client: " + morraInfo.getpNum() + " chooses: " + morraInfo.getP2Plays());
+                        morraInfo.setGuessing(true);
                     }
                 }
-                catch(Exception e) {}
+                catch(Exception e) {
+                    //e.printStackTrace();
+                }
             }
         }
 
@@ -115,20 +117,20 @@ public class MorraServer {
             return 0;
         }
 
-        public void determineWinner(MorraInfo morraInfo){
+        public void determineWinner() throws IOException {
             int win = morraGameLogic(Integer.parseInt(morraInfo.getP1Plays()), Integer.parseInt(morraInfo.getP2Plays()));
             if(win == 1){
-                morraInfo.setP1Points(win);
-                morraInfo.setPlayerString("client #"+ morraInfo.getpNum() + " has won this round!");
+                morraInfo.setP1Points(morraInfo.getP1Points() + 1);
+                morraInfo.setPlayerString("client #1 has won this round!");
             }
             else if(win == 2){
-                morraInfo.setP2Points(win);
-                morraInfo.setPlayerString("client #"+ morraInfo.getpNum() + " has won this round!");
+                morraInfo.setP2Points(morraInfo.getP2Points() + 1);
+                morraInfo.setPlayerString("client #2 has won this round!");
             }
             else{
                 morraInfo.setPlayerString("No one won game is tied!");
-                updateClients();
             }
+            updateClients();
         }
 
         public void run() {
@@ -146,11 +148,14 @@ public class MorraServer {
                 try {
                     if(morraInfo.isTwoPlayers()){
                         updateServer();
-                        //determines who won and prints out the winner
-                        determineWinner(morraInfo);
-                        updateClients();
+                        if(morraInfo.isGuessing()){
+                            //determines who won and prints out the winner
+                            determineWinner();
+                            callback.accept(morraInfo.getP1Points());
+                        }
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                     callback.accept("OOOOPPs...Something wrong with the socket from client: " + morraInfo.getpNum() + "....closing down!");
                     //updateClients("Client #" + count + " has left the server!");
                     clients.remove(this);
